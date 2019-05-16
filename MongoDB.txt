@@ -152,10 +152,17 @@ $mul --> Multiplies the current field by specifing the value, if it's empty give
 	> db.potions.update({"name": "Shrinking"}, {"$pop": {"categories": 1}})
 
 ##The output will show only first element
+## 1 for the first value
+## -1 for the last value
 
 ##Using $push operator will do the opposite it will add another value and it will be at the end
+	> db.potions.update({"name": "Shrinking"},{"$push": {"categories": "budget"}})
+
 ##Additionally, $addToSet operator will add a value to the end, if the value exist it doesn't change and if not it will be added.
+	> db.potions.update({"name": "Shrinking"},{"$addToSet": {"categories": "budget"}})
+
 ##A relative of $pop operator is $pull operator that will remove using the name of the value.
+	> db.potions.update({"name": "Shrinking"},{"$pull": {"categories": "tasty"}})
 
 %You can find multiple parameters using the find() option
 	> db.potions.find(
@@ -176,6 +183,52 @@ $lts	Less than or equal to
 	> db.potions.find({"price": {"$gt": 10, "$lt": 20}})
 	> db.potions.find({"vendor": {"$ne": "Kettlecooked"}})
 	> db.potions.find({"sizes": {"$elemMatch": {"$gt": 8, "$lt": 16}}})
+	> db.potions.find({"sizes": {"$gt": 8, "$lt": 16}})
 
+##Careful with the last two find() options, recognize the match for each number
 
-	
+%Developing list to visualize the documents that you created
+
+##Know you can code a projection using the find() option in ordered to specify the labels or fields of a collection.
+	> db.potions.find({"grade": {"$gte": 30}},
+	{"vendor": true, "name": true})
+
+##The output shows the fields that you selected like "vendor" and "name"
+##The true it the condition to choose the field.
+## The opposite to visualize the other fields or exclude the fields.
+	> db.potions.find({"grade": {"$gte": 30}},
+	{"vendor": false, "price": false})
+
+%You can use an optimal find() option or an exclusive fields by using the "_id"
+	>db.potions.find({"grade": {"$gte": 30}},
+	{"vendor": true, "price": true, "_id": false}) 
+
+##The inclusion or exclusion of the fields depend on the statement true or false but depend on the context.
+	> db.potions.find({"grade": {"$gte": 30}},
+	{"name": true, "vendor": false})
+
+##Using a find() function gives the option to visualize all the documents.
+
+%Knowing the characteristics of the find() option give you the "cursos object"
+	> db.potions.find({"vendor": "Kettlecooked"})
+#It will visualize at least the first 20 documents.
+##If you have more than 20 documents.
+	> db.potions.find()
+
+#Also visualize the first 20 documents.
+##And the option of type "it" is for showing the rest.
+
+%Counting the number of documents that you have the count() option is preference.
+	> db.potions.find().count()
+
+%You can sort the documents on ascending or descending order
+##Use 1 (Ascending) or -1 (Descending)
+	> db.potions.find().sort({"price": 1})
+	> db.potions.find().sort({"price": -1})
+
+%The limit() and skip() options is a basic method to page your documents.
+	> db.potions.find().limit(3)
+	> db.potions.find().skip(3).limit(3)
+
+##Using big numbers are not useful if you are using the skip() option when you are working with large collections.
+
