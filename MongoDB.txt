@@ -1,0 +1,181 @@
+Learn MongoDB in $%#^ minutes
+
+%Asking for help? Use the command
+	> help
+
+%Create a variable in MongoDB
+	You have to write:
+## Remember to use the  { to open the statement and } to close it.
+## Also use the , to separate the statements of the variable
+## Use the "" for strings, instead of write the number's name like "nineteen"
+## Write the number 
+	> var book_1 = { "book's name": "Siddartha", "Author": "Hermann Hesse"}
+
+%To call the variable and see its contents
+	> book_1
+%It will display the content of the variable using the braces.
+
+
+%Create a database 
+	> use Silmaril
+
+%Show that we are in the Database
+	> db
+%The output will be the name of the database that we already create
+	> Silmaril
+
+%To change into another DB 
+
+%Visualize the DB that are already created and also display the storage of the database
+	> show dbs
+
+%Insert a collection in a database, it would be state or write in the following way.
+## Use the () to start the and ends the insertion of a new collection.
+	> db.books.insert({"book's name": "Siddartha",
+		"Author": "Hermann Hesse"})
+
+
+%To display and visualize which are the collection(s) that we created just type
+	> db.books.find()
+###The contents will be display and their ID
+
+
+%We can also use the command find to display an specific field of the query
+	> db.books.find({"book's name": "Siddartha"})
+
+%Adding integer and float values are available for MongoDB
+> db.books.insert({"book's name": "Siddartha", 
+	"Author": "Hermann Hesse",
+	"price": 200,
+	"Publisher": "New directions"})
+%The Dates can be added
+> db.books.insert({"book's name": "Siddartha", 
+	"Author": "Hermann Hesse",
+	"price": 200,
+	"Publisher": "New Directions",
+	"tryDate": new Date(1992, 6, 28)})
+
+% We can store in the collections any type of data using an array
+> db.books.insert({"book's name": "Siddartha", 
+	"Author": "Hermann Hesse",
+	"price": 200,
+	"Publisher": "New Directions",
+	"tryDate": new Date(1992, 6, 28)
+	"Page": ["Parameters"]})
+
+%You can remove() to delete document that would match or not with the rigth query
+	> db.books.remove({"book's name": El Principito})
+#The output would show that the remove was did.
+#If you a write a certain parameter, it will remove those documents which match with the paramater to remove
+
+%Updating an existing document you have to use the update() option
+#You must use the "$set" if you only write "set" that will be your new parameter
+	> db.books.update({"book's name": "El principito"},
+		{"$set": {"Author": Antoine de Saint-Exupéry})
+
+%If you want to update no just one document, update all the documents that match with the new parameter of the query
+#Use "multi":true for that.
+	> db.books.update({"book's name": "El principito"},
+		{"$set": {"Author": Antoine de Saint-Exupéry},
+		{"multi": true})
+
+#It will match with the other documents which have the same parameter.
+
+%If you want, you can create a counter and you wanted to increase it in a log document.
+%Use the $inc operator.
+	> db.logs.update({"Weapon": Iron Greatsword},
+		{"$inc": {"count": 1}})
+#If you do that but the document doesn't exist, it won't do anything.
+#Apply the option "upsert" for that.
+	> db.logs.update({"Weapon": Iron Greatsword},
+		{"$inc": {"count": 1}},
+		{"upsert": true})
+#If you repeat the same command the counter will change or increase according to the "upsert" option.
+
+##Let's add 3 documents.
+	> db.potions.insert({"name": "Fus Rho Da", "Color": "Blue"})
+	> db.potions.insert({"name": "Storm", "Color": "Purple"})
+	> db.potions.insert({"name": "Slay Dragon", "Color": Red"})
+	
+%Removing the fields from a collection that you never use is possible.
+##Use the $unset operation for that.
+##The brackets {} means that you are selecting all the potions collections.
+##Also use the multi = true option you verify the match between documents and parameters.
+	> db.potions.update({},{"$unset": {"color": ""}},{"multi": true})
+
+%Insert a new potion with a secret ingredient
+	> db.potions.insert(
+	{"name": "Cure disease",
+	"Vendor": "Arcadia",
+	"price": 164,
+	"score": 67,
+	"tryDate": new Date(2011, 4,23),
+	"ingredients": ["Blisterwert", "secret", "Mudcrab chitin"],
+	"ratings": {"strength": 8, "flavor": 5}
+	}
+)
+	
+##If you want to change field names, use the $rename operator for that.
+	> db.potions.update({},
+	{"$rename": {"score": "grade"}},
+	{"multi": true}
+	)
+## use the find() and observe what happen with the field.
+##The field that you changed, it will be moving at the end of the potions.
+
+%Knowing a "secret" ingredient in a document you must require the update() options
+##As the parameter is an array you have to write all the elements
+##Another option is using the position of the value which will be change.
+	> db.potions.update(
+	{"name": "Cure disease"},
+	{"$set": {"ingredientes.1": "Sugar"}}
+	)
+##Use the find() option to verify if the update was did.
+##Insert more potions and use the ingredients.$ for all the arrays.
+
+%Doing the same statement if you want to update a field that was wrote in {}
+	> db.potions.update(
+	{"name": "Cure disease"},
+	{"$set": {"ratings.strength": 10}}
+	)
+	
+MongoDB provides a diversification of methods to modify values or fields.
+	$max --> Update the greater value or it's created 
+	$min --> Update the lower value or it's created
+$mul --> Multiplies the current field by specifing the value, if it's empty gives you 0
+
+##Let's insert another document
+	> db.potions.insert({"name": "Shrinking", "vendor": "Faradas",
+	"categories": ["tasty", "effective"]})
+
+%Using the $pop operator will remove the value depending either the first or last value
+	> db.potions.update({"name": "Shrinking"}, {"$pop": {"categories": 1}})
+
+##The output will show only first element
+
+##Using $push operator will do the opposite it will add another value and it will be at the end
+##Additionally, $addToSet operator will add a value to the end, if the value exist it doesn't change and if not it will be added.
+##A relative of $pop operator is $pull operator that will remove using the name of the value.
+
+%You can find multiple parameters using the find() option
+	> db.potions.find(
+	{
+	"vendor": "Kettlecooked",
+	"rating.flavor": 5})
+#It will display the name of the documents.
+
+Comparison operator
+
+$gt	Greater than
+$gte	Greater than or equal to
+$ne	Not equal to
+$lt	Less than
+$lts	Less than or equal to
+
+%You can use the find() options by applying a comparsion between prices, inequality, range
+	> db.potions.find({"price": {"$gt": 10, "$lt": 20}})
+	> db.potions.find({"vendor": {"$ne": "Kettlecooked"}})
+	> db.potions.find({"sizes": {"$elemMatch": {"$gt": 8, "$lt": 16}}})
+
+
+	
