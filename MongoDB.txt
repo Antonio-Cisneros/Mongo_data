@@ -231,4 +231,74 @@ $lts	Less than or equal to
 	> db.potions.find().skip(3).limit(3)
 
 ##Using big numbers are not useful if you are using the skip() option when you are working with large collections.
+--------------------------------------------------------------------
+Question section
 
+1. Why not MongoDb?
+It's not weull suited for applications that need: multi-object transactions, 
+SQL (For the implementations on specific queries), Strong ACID guarantees and 
+traditional BI (The run of different number of applications).
+
+2. Is the are difference between using SQL?
+A user has many questions; a question has many answer.
+
+MongonDB can have document relationship, it's far easier to query relations in SQL.
+
+3. Does MongoDb require a lot of RAM?
+MondoDB uses the free memory that is on the computer as its cache.
+
+4. When should we use MongoDB?
+If you can represent your data in a form of a bunch of documents, MongoBD is the option.
+
+
+5. When should not we use Mongo DB?
+If you would rather imagine your data as a bunch of interconnected tables, MongoDB would not be the right option.
+
+6. When MongoDB is friend for our data?
+MongoDB is very fast and reliable, but never forget you don't have relational information in your Db.
+
+Which means if you change something in the structure of your document, it could be possible you don't have the data to fill the holes in your stored parameters.
+
+7. MongoDB produce a lot of computer work?
+In general, creates more for the client server, join the data one has to issue multiple queries and do the join in the client.
+
+
+8. MongoDB or MySQL?
+MongoDB's databases are great when you usually know where your data is. With Mongo, the related data is either nested in the parent data or it has primary/foreign keys. In the other hand, if you are need to use aggregate functions and feel the need to query data in complex ways that using Mongo can't achieved through simple relations, use MySQL.
+
+9. When to use a single collection on MongoDB?
+Almost never, applications have structure, and deal with data containing structure even if that structure is some form of meta-structure.
+
+Otherwise every piece of code would be one-off never to be used again.
+
+10. Working as an analytic tool?
+MongoDB provides a custom map/reduce implementation for those simple relationships on documents or parameters.
+
+11. Collection per day or Database per day?
+The better to fit is a collection per day for the map/reduce work to summarize the data.
+
+12. Advantages using MongoDB?
+	1. Document can have any structure within one collection.
+	2. Good speed
+	3. Good means for replication
+
+13. What the limit size for a document on MongoDB?
+MongoDB allows only 16 MB for each document 
+
+14. How is the performance on MongoDB?
+MongoDB is able to check your queries' filtering condition instead of going through each document in the collection.
+With the time, queries would be getting slower and with the amount oof documents in a collection the reason is how you stored the index of the collection.
+
+15. MongoDB has Keys?
+MongoDB doesn't support server side foreign key relationships, normalization is also discouraged if your structure is more complex then probably you should choose a SQL and no a NOSQL. 
+///////////////////////////////////////////////////////////////////////////
+References
+https://stackoverflow.com/questions/4288615/why-not-mongodb
+https://softwareengineering.stackexchange.com/questions/54373/when-would-someone-use-mongodb-or-similar-over-a-relational-dbms
+https://stackoverflow.com/questions/26423721/what-situations-is-mongodb-perfect-for
+
+
+
+/////////////////////////////////////////////////////////////////////////////
+
+Author: Antonio Cisneros
