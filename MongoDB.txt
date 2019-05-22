@@ -231,6 +231,46 @@ $lts	Less than or equal to
 	> db.potions.find().skip(3).limit(3)
 
 ##Using big numbers are not useful if you are using the skip() option when you are working with large collections.
+
+%%Data Modeling Decisions
+
+Pendent
+
+%%Common Aggregations
+
+#Using the collections on MongoDB provide us the opportunity to find the exact of documents that we have using the $group operator for that.
+
+##Insert 6 extra potions with the parameters "name", "vendor" and "grade".
+##After you insert the potions, use the following command.
+	> db.potions.aggregate([{"$group": {"_id": "$vendor"}}])
+
+#The output must in this case the names of the vendors.
+#If you have a null is for the potions that don't have a vendor
+
+#Another method is using the accumulator of the each field on the document
+	> db.potions.aggreagate([{"group": {"_id": "vendor", "total": {"$sum": 1}}}])
+
+#it should display the vendor and how many potions have the name of that vendor
+## Using "$" means that a field perform a task
+
+#More Operator options are...
+	> db.potions.aggregate([{"group": {"_id": "vendor", "total": {"$sum": 1},
+	"grade_total": {"$sum": "$grade"}}}])
+
+	> db.potions.aggregate([{"group": {"_id": "vendor",
+	"avg_grade": {"$avg": "$grade"}}}])
+	
+	> db.potions.aggregate([{"group": {"_id": "vendor",
+	"max_grade": {"$max": "$grade"}}}])
+
+	db.potions.aggreagate([{"group": {"_id": "vendor",
+	"min_grade": {"$min": "$grade"}}}])
+
+
+%%The Aggregation Pipeline
+
+
+
 --------------------------------------------------------------------
 Question section
 
