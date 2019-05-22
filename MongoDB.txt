@@ -3,6 +3,8 @@ Learn MongoDB in $%#^ minutes
 %Asking for help? Use the command
 	> help
 
+%%Introducing MongoDB
+
 %Create a variable in MongoDB
 	You have to write:
 ## Remember to use the  { to open the statement and } to close it.
@@ -28,6 +30,8 @@ Learn MongoDB in $%#^ minutes
 
 %Visualize the DB that are already created and also display the storage of the database
 	> show dbs
+
+%%Queries and Data Types
 
 %Insert a collection in a database, it would be state or write in the following way.
 ## Use the () to start the and ends the insertion of a new collection.
@@ -62,6 +66,8 @@ Learn MongoDB in $%#^ minutes
 	"Publisher": "New Directions",
 	"tryDate": new Date(1992, 6, 28)
 	"Page": ["Parameters"]})
+
+%%Removing and Modifying Documents
 
 %You can remove() to delete document that would match or not with the rigth query
 	> db.books.remove({"book's name": El Principito})
@@ -102,6 +108,8 @@ Learn MongoDB in $%#^ minutes
 ##The brackets {} means that you are selecting all the potions collections.
 ##Also use the multi = true option you verify the match between documents and parameters.
 	> db.potions.update({},{"$unset": {"color": ""}},{"multi": true})
+
+%%Advanced Modification
 
 %Insert a new potion with a secret ingredient
 	> db.potions.insert(
@@ -164,6 +172,8 @@ $mul --> Multiplies the current field by specifing the value, if it's empty give
 ##A relative of $pop operator is $pull operator that will remove using the name of the value.
 	> db.potions.update({"name": "Shrinking"},{"$pull": {"categories": "tasty"}})
 
+%%Query Operators
+
 %You can find multiple parameters using the find() option
 	> db.potions.find(
 	{
@@ -186,6 +196,8 @@ $lts	Less than or equal to
 	> db.potions.find({"sizes": {"$gt": 8, "$lt": 16}})
 
 ##Careful with the last two find() options, recognize the match for each number
+
+%%Customizing Queries
 
 %Developing list to visualize the documents that you created
 
@@ -232,9 +244,42 @@ $lts	Less than or equal to
 
 ##Using big numbers are not useful if you are using the skip() option when you are working with large collections.
 
+%%Data Modeling
+
+When you make a survey for a user registration and on the User Profile surveys, the fields can be related to the users. MongoDB allows on embedded documents specifying or adding certain missing data if the are hole on the query.
+
+If there are a duplication on the data, you can make a reference on a new collection it could be added to the potion's collection. You must use the id of the each document to develop a better query and reference a the collection that you just did.
+
+Features on embedded documents provides (not a the best NoSQL format) the available options to grap the exact parameters of a document to be collected. There are atomic operations that guarantee if the are an update on the parameters and there is a mistake on the syntax, the none of the update will occur.
+
+Once you made the reference on a document, the collection will have that part of the information that was referenced. Multi-document syntax for implement a reference is not supported. You can't write new parameters in atomic level if the syntax doesn't is from the same collection.
+
+MongoDB doesn't allow transactions for the relationship between queries and collection.
+
 %%Data Modeling Decisions
 
-Pendent
+The difference between embedding and referencing a document would be not hard decision.
+
+Embedding:
+	~ Single query
+	~ Documents accsed through parent
+	~ Atomic writes
+
+Referencing:
+	~ Requires 2 queries
+	~ Documents exist independently
+	~ Doesn't support multi-document writes
+
+Comments are allowed on both but using embebbing is easier because for the query on the user registration, embedding will work most of the time and referencing only can comment using multiple queries.
+
+According to size of data, reference allows more for the use of multiple queries that callow the indepently documents to be processed. Embedding and referencing should be decided for the size limit on the 50 comments.
+
+Summarize those features:
+
+Embedding is better for the collection to a comment (less than 100 comments per document, rarely are less than 50 comments).
+Referencig is better for the commets to user fields.
+
+The guidelines stages that is better to make a embedded document according to the conditions on the data modeling.
 
 %%Common Aggregations
 
@@ -269,6 +314,19 @@ Pendent
 
 %%The Aggregation Pipeline
 
+Do not have unicorns on the your collections, the solution for that is query potions, group by vendor and sum the number of potions per vendor.
+##You must use the aggregate method as a pipeline for the parameters and fields, where the collection would be filtered as document and the grouped.
+##Emmploy the $match operator for a better performance and $group for a better filter for the data.
+
+On the previous sections, it was used the $sort operator, it'is also useful for the stage of the documents. Limit operator provide the grouped number of documents for the stage, and the $project operator is a optimal find and more fast to avoid the errors and help us to make a better pipeline
+
+	>db.potions.aggregate([
+	{"$match": {"price": {"$lt": 15}}},
+	{"$project": {"_id": false, "vendor_id": true, "grade": true}},
+	{"$group": {"_id": "$vendor", "avg_grade": {"$avg": "$grade"}}},
+	{"$sort": {"avg_grade": -1}},
+	{"$limit": 3}
+	])
 
 
 --------------------------------------------------------------------
