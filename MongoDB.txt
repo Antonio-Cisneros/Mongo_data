@@ -3,20 +3,19 @@ Learn MongoDB in $%#^ minutes
 %Asking for help? Use the command
 	> help
 
-%%Introducing MongoDB
+# Introducing MongoDB
 
 %Create a variable in MongoDB
 	You have to write:
-## Remember to use the  { to open the statement and } to close it.
-## Also use the , to separate the statements of the variable
-## Use the "" for strings, instead of write the number's name like "nineteen"
-## Write the number 
+##Remember to use the  { to open the statement and } to close it.
+##Also use the , to separate the statements of the variable
+##Use the "" for strings, instead of write the number's name like "nineteen"
+##Write the number 
 	> var book_1 = { "book's name": "Siddartha", "Author": "Hermann Hesse"}
 
 %To call the variable and see its contents
 	> book_1
 %It will display the content of the variable using the braces.
-
 
 %Create a database 
 	> use Silmaril
@@ -31,7 +30,7 @@ Learn MongoDB in $%#^ minutes
 %Visualize the DB that are already created and also display the storage of the database
 	> show dbs
 
-%%Queries and Data Types
+# Queries and Data Types
 
 %Insert a collection in a database, it would be state or write in the following way.
 ## Use the () to start the and ends the insertion of a new collection.
@@ -41,8 +40,7 @@ Learn MongoDB in $%#^ minutes
 
 %To display and visualize which are the collection(s) that we created just type
 	> db.books.find()
-###The contents will be display and their ID
-
+##The contents will be display and their ID
 
 %We can also use the command find to display an specific field of the query
 	> db.books.find({"book's name": "Siddartha"})
@@ -67,7 +65,7 @@ Learn MongoDB in $%#^ minutes
 	"tryDate": new Date(1992, 6, 28)
 	"Page": ["Parameters"]})
 
-%%Removing and Modifying Documents
+# Removing and Modifying Documents
 
 %You can remove() to delete document that would match or not with the rigth query
 	> db.books.remove({"book's name": El Principito})
@@ -109,7 +107,7 @@ Learn MongoDB in $%#^ minutes
 ##Also use the multi = true option you verify the match between documents and parameters.
 	> db.potions.update({},{"$unset": {"color": ""}},{"multi": true})
 
-%%Advanced Modification
+# Advanced Modification
 
 %Insert a new potion with a secret ingredient
 	> db.potions.insert(
@@ -172,7 +170,7 @@ $mul --> Multiplies the current field by specifing the value, if it's empty give
 ##A relative of $pop operator is $pull operator that will remove using the name of the value.
 	> db.potions.update({"name": "Shrinking"},{"$pull": {"categories": "tasty"}})
 
-%%Query Operators
+# Query Operators
 
 %You can find multiple parameters using the find() option
 	> db.potions.find(
@@ -181,7 +179,7 @@ $mul --> Multiplies the current field by specifing the value, if it's empty give
 	"rating.flavor": 5})
 #It will display the name of the documents.
 
-Comparison operator
+# Comparison operators
 
 $gt	Greater than
 $gte	Greater than or equal to
@@ -197,7 +195,7 @@ $lts	Less than or equal to
 
 ##Careful with the last two find() options, recognize the match for each number
 
-%%Customizing Queries
+# Customizing Queries
 
 %Developing list to visualize the documents that you created
 
@@ -244,19 +242,15 @@ $lts	Less than or equal to
 
 ##Using big numbers are not useful if you are using the skip() option when you are working with large collections.
 
-%%Data Modeling
+#Data Modeling
 
 When you make a survey for a user registration and on the User Profile surveys, the fields can be related to the users. MongoDB allows on embedded documents specifying or adding certain missing data if the are hole on the query.
-
 If there are a duplication on the data, you can make a reference on a new collection it could be added to the potion's collection. You must use the id of the each document to develop a better query and reference a the collection that you just did.
-
 Features on embedded documents provides (not a the best NoSQL format) the available options to grap the exact parameters of a document to be collected. There are atomic operations that guarantee if the are an update on the parameters and there is a mistake on the syntax, the none of the update will occur.
-
 Once you made the reference on a document, the collection will have that part of the information that was referenced. Multi-document syntax for implement a reference is not supported. You can't write new parameters in atomic level if the syntax doesn't is from the same collection.
-
 MongoDB doesn't allow transactions for the relationship between queries and collection.
 
-%%Data Modeling Decisions
+# Data Modeling Decisions
 
 The difference between embedding and referencing a document would be not hard decision.
 
@@ -281,7 +275,7 @@ Referencig is better for the commets to user fields.
 
 The guidelines stages that is better to make a embedded document according to the conditions on the data modeling.
 
-%%Common Aggregations
+# Common Aggregations
 
 #Using the collections on MongoDB provide us the opportunity to find the exact of documents that we have using the $group operator for that.
 
@@ -295,10 +289,10 @@ The guidelines stages that is better to make a embedded document according to th
 #Another method is using the accumulator of the each field on the document
 	> db.potions.aggreagate([{"group": {"_id": "vendor", "total": {"$sum": 1}}}])
 
-#it should display the vendor and how many potions have the name of that vendor
-## Using "$" means that a field perform a task
+%it should display the vendor and how many potions have the name of that vendor
+%Using "$" means that a field perform a task
 
-#More Operator options are...
+% More Operator options are...
 	> db.potions.aggregate([{"group": {"_id": "vendor", "total": {"$sum": 1},
 	"grade_total": {"$sum": "$grade"}}}])
 
@@ -312,7 +306,7 @@ The guidelines stages that is better to make a embedded document according to th
 	"min_grade": {"$min": "$grade"}}}])
 
 
-%%The Aggregation Pipeline
+# The Aggregation Pipeline
 
 Do not have unicorns on the your collections, the solution for that is query potions, group by vendor and sum the number of potions per vendor.
 ##You must use the aggregate method as a pipeline for the parameters and fields, where the collection would be filtered as document and the grouped.
@@ -330,7 +324,7 @@ On the previous sections, it was used the $sort operator, it'is also useful for 
 
 
 --------------------------------------------------------------------
-Question section
+# Question section
 
 1. Why not MongoDb?
 It's not weull suited for applications that need: multi-object transactions, 
@@ -388,15 +382,33 @@ MongoDB is able to check your queries' filtering condition instead of going thro
 With the time, queries would be getting slower and with the amount oof documents in a collection the reason is how you stored the index of the collection.
 
 15. MongoDB has Keys?
-MongoDB doesn't support server side foreign key relationships, normalization is also discouraged if your structure is more complex then probably you should choose a SQL and no a NOSQL. 
+MongoDB doesn't support server side foreign key relationships, normalization is also discouraged if your structure is more complex then probably you should choose a SQL and no a NOSQL.
+
+# Topics to approach on MongoDB if your a new learner on MongoDB
+	
+	~ How to create a collection
+	> db.createCollection("Collectionname")
+
+	~ Indexes
+%An extra topic to board is the use of index on MongoDB, because without an index the collection and its fields are only for consulting.
+	> db.collection.createIndex([Key and index type])
+You cand add options to the command if you to develop an optimal or exclusive index for the collection.
+	> db.collection.createIndex([Key and index type], [options])
+	> db.collection.createIndex ({name: -1})
+##It will create a single key descending index on the name field.
+
+	~ Using database commands to take advantage of advance features
+%To run a command against the current databases.
+	> db.runCommand({command})
+%To run an administrative command against the admin database.
+	> db.adminCommand({command})
+ 
+
 ///////////////////////////////////////////////////////////////////////////
 References
 https://stackoverflow.com/questions/4288615/why-not-mongodb
 https://softwareengineering.stackexchange.com/questions/54373/when-would-someone-use-mongodb-or-similar-over-a-relational-dbms
 https://stackoverflow.com/questions/26423721/what-situations-is-mongodb-perfect-for
-
-
-
 /////////////////////////////////////////////////////////////////////////////
 
 Author: Antonio Cisneros
