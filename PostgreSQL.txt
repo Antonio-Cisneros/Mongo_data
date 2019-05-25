@@ -1,0 +1,62 @@
+PostgreSQL course
+
+First Day:
+
+create table materias (
+id serial not null unique primary key,
+nombre varchar(255) not null, 
+codigo varchar(255) not null);
+
+create table semestres (
+id serial not null unique primary key,
+numero int not null, 
+codigo varchar(255) not null,
+fecha_inicio timestamp,
+fecha_fin timestamp);
+
+create table materias_semestres (
+id serial not null unique primary key,
+materia_id int not null,
+semestre_id int not null,
+numero int not null, 
+codigo varchar(255) not null);
+
+alter table "public"."materias_semestres" add constraint materias_FK foreign key ("materia_id") references "public"."materias"("id");
+alter table "public"."materias_semestres" add constraint semestres_FK foreign key ("semestre_id") references "public"."semestres"("id");
+
+create table usuarios (
+id serial not null unique primary key,
+p_nombre varchar(255) not null,
+p_apellido varchar(255) not null,
+s_apellido varchar(255) not null,
+fecha_ingreso timestamp,
+matricula varchar(255) not null);
+
+create table alumnos (
+matricula varchar(255)
+)inherits(usuarios);
+
+create table maestros(
+nomina int not null,
+sueldo int not null,
+hijos int)inherits(usuarios);
+
+create table maestros_materias_semestres(
+id int not null,
+maestro_id int not null,
+materia_semestre_id int not null
+);
+
+alter table "public"."maestros_materias_semestres" add constraint materia_semestre_FK foreign key ("materia_semestre_id") references "public"."materias_semestres"("id");
+alter table "public"."maestros_materias_semestres" add constraint maestro_id_FK foreign key ("maestro_id") references "public"."materias_semestres"("id");
+
+
+create table alumnos_calificación(
+id int not null,
+maestro_materia_semestre_id int not null,
+alumno_id int not null,
+calificacion decimal(2,2)
+);
+
+alter table "public"."alumnos_calificacion" add constraint maestro_materia_semestre_FK foreign key ("maestro_materia_semestre_id") references "public"."maestros_materias_semestres"("id");
+alter table "public"."alumnos_" add constraint materia_semestre_FK foreign key ("materia_semestre_id") references "public"."materias_semestres"("id");
