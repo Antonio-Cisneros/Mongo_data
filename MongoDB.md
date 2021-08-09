@@ -75,12 +75,12 @@ Learn MongoDB in $%#^ minutes
 %Updating an existing document you have to use the update() option
 #You must use the "$set" if you only write "set" that will be your new parameter
 	> db.books.update({"book's name": "El principito"},
-		{"$set": {"Author": Antoine de Saint-Exupéry})
+		{"$set": {"Author": Antoine de Saint-ExupÃ©ry})
 
 %If you want to update no just one document, update all the documents that match with the new parameter of the query
 #Use "multi":true for that.
 	> db.books.update({"book's name": "El principito"},
-		{"$set": {"Author": Antoine de Saint-Exupéry},
+		{"$set": {"Author": Antoine de Saint-ExupÃ©ry},
 		{"multi": true})
 
 #It will match with the other documents which have the same parameter.
